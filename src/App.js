@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import './App.css'
+import Home from './pages/Home/Home'
+import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer';
+import Loading from './components/Loading/Loading'
+const Login = React.lazy(() => import('./pages/Login/Login' /* webpackChunkName: "login" */))
+const Admin = React.lazy(() => import('./pages/Admin/Admin' /* webpackChunkName: "admin" */))
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter className="App">
+      <Header /> 
+      <Suspense fallback={Loading}>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/admin' element={<Admin />} />
+        </Routes>
+      </Suspense>
+      <Footer />
+    </BrowserRouter>
   );
 }
-
-export default App;
